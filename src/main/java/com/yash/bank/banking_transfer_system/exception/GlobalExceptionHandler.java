@@ -50,4 +50,22 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>("Failure", ex.getMessage(), null));
     }
 
+    @ExceptionHandler(AccountNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleAccountNotFound(AccountNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>("Failure", ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(BeneficiaryAlreadyExistsException.class)
+    public ResponseEntity<ApiResponse<?>> handleBeneficiaryAlreadyExists(BeneficiaryAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>("Failure", ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(BeneficiaryNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleBeneficiaryNotFound(BeneficiaryNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>("Failure", ex.getMessage(), null));
+    }
+
 }
