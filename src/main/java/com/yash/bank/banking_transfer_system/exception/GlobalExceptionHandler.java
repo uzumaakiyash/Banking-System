@@ -68,4 +68,21 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>("Failure", ex.getMessage(), null));
     }
 
+    @ExceptionHandler(TransferException.class)
+    public ResponseEntity<ApiResponse<?>> handleTransferException(TransferException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>("Failure", ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ApiResponse<?>> handleInsufficientBalance(InsufficientBalanceException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>("Failure", ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(AccountInactiveException.class)
+    public ResponseEntity<ApiResponse<?>> handleAccountInactive(AccountInactiveException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ApiResponse<>("Failure", ex.getMessage(), null));
+    }
 }
