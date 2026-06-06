@@ -1,10 +1,7 @@
 package com.yash.bank.banking_transfer_system.controller;
 
 import com.yash.bank.banking_transfer_system.Service.TransferService;
-import com.yash.bank.banking_transfer_system.dto.ApiResponse;
-import com.yash.bank.banking_transfer_system.dto.TransactionResponse;
-import com.yash.bank.banking_transfer_system.dto.TransferRequest;
-import com.yash.bank.banking_transfer_system.dto.TransferResponse;
+import com.yash.bank.banking_transfer_system.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,11 +27,18 @@ public class TransferController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<ApiResponse<Page<TransactionResponse>>> getHistory(Pageable pageable) {
-        Page<TransactionResponse> history = transferService.getTransactionHistory(pageable);
-        return ResponseEntity.ok(ApiResponse.<Page<TransactionResponse>>builder()
+    public ResponseEntity<ApiResponse<PageResponse<TransactionResponse>>> getHistory(Pageable pageable) {
+        Page<TransactionResponse> page = transferService.getTransactionHistory(pageable);
+        PageResponse<TransactionResponse> response = PageResponse.<TransactionResponse>builder()
+                .content(page.getContent())
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
+        return ResponseEntity.ok(ApiResponse.<PageResponse<TransactionResponse>>builder()
                 .result("Success")
-                .data(history)
+                .data(response)
                 .build());
     }
 }
